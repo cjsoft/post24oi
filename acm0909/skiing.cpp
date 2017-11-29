@@ -98,7 +98,7 @@ int main() {
         topo();
         for (int i = n; i > 0; --i) {
             for (edge *j = hds[n]; j; j = j ->prev) {
-                dp[i] = max(dp[i], dp[j->v] + j->w)
+                dp[i] = max(dp[i], dp[j->v] + j->w);
             }
         }
         printf("%d\n", fresult);
