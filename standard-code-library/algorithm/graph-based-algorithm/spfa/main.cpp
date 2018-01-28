@@ -1,14 +1,13 @@
 /**--------------------
- * Dijkstra Single-Source Shortest Path Algorithm
+ * SPFA Single-Source Shortest Path Algorithm
  *
- * Time Consumption: E \times \log{V}
+ * Time Consumption: V \times E (worst)
  * Mem Consumption: linear
  * Author: cjsoft
- * Date: 2018/01/27
+ * Date: 2018/01/28
  * --------------------
  */
 #include <queue>
-#include <vector>
 #include <iostream>
 #include <cstdio>
 #include <cstring>
@@ -42,32 +41,30 @@ inline void addedge(int u, int v, int w) {
     ehead[u] = ecur++;
 }
 
-struct PII {
-    int v, dis;
-    PII(): v(0), dis(0) {}
-    PII(int v, int dis): v(v), dis(dis) {}
-    bool operator<(const PII &b) const {
-        if (dis == b.dis) return v < b.v;
-        return dis > b.dis;
-    }
-};
-
-priority_queue<PII> npq;
+queue<int> _Q;
+char _INQ[VMXN];
 int dis[VMXN];
-void dijkstra(int s) {
-    while (!npq.empty()) npq.pop();
+void spfa(int s) {
+    memset(_INQ, 0, sizeof(_INQ));
     memset(dis, 0x3f, sizeof(dis));
+    while (!_Q.empty()) _Q.pop();
     dis[s] = 0;
-    npq.push(PII(s, 0));
-    PII tmp;
-    while (!npq.empty()) {
-        tmp = npq.top(), npq.pop();
-        if (tmp.dis > dis[tmp.v]) continue;
-        iterate(tmp.v, i) {
-            if (dis[E[i].v] > dis[tmp.v] + E[i].w) {
-                dis[E[i].v] = dis[tmp.v] + E[i].w;
-                npq.push(PII(E[i].v, dis[E[i].v]));
+    _Q.push(s);
+    _INQ[s] = 1;
+    int u;
+    while (!_Q.empty()) {
+        u = _Q.front();
+        iterate(u, i) {
+            if (dis[u] + E[i].w < dis[E[i].v]) {
+                dis[E[i].v] = dis[u] + E[i].w;
+                if (!_INQ[E[i].v]) {
+                    _Q.push(E[i].v);
+                    _INQ[E[i].v] = 1;
+                }
             }
         }
+        _Q.pop();
+        _INQ[u] = 0;
     }
 }
+

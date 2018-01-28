@@ -1,6 +1,8 @@
 /**--------------------
  * Standard Segment Tree Template
  *
+ * Time Consumption: N \log{N}
+ * Mem Consumption: linear
  * Author: cjsoft
  * Date: 2018/01/27
  * --------------------

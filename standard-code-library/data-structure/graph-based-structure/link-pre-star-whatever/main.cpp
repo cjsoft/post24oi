@@ -1,6 +1,8 @@
 /**--------------------
  * lian shi qian xiang xing
  *
+ * Time Consumption: linear
+ * Mem Consumption: linear
  * Author: cjsoft
  * Date: 2018/01/27
  * --------------------
@@ -63,4 +65,3 @@ inline void addedge(int u, int v, int w) {
     ehead[u] = ecur++;
 }
 #endif
-

@@ -1,5 +1,5 @@
 /**--------------------
- * Dijkstra Single-Source Shortest Path Algorithm
+ * Prim Spanning Tree Algorithm
  *
  * Time Consumption: E \times \log{V}
  * Mem Consumption: linear
@@ -53,21 +53,27 @@ struct PII {
 };
 
 priority_queue<PII> npq;
+char vis[VMXN];
 int dis[VMXN];
-void dijkstra(int s) {
+int prim(int s) {
+    int ans = 0;
     while (!npq.empty()) npq.pop();
     memset(dis, 0x3f, sizeof(dis));
+    memset(vis, 0, sizeof(vis));
     dis[s] = 0;
     npq.push(PII(s, 0));
     PII tmp;
     while (!npq.empty()) {
         tmp = npq.top(), npq.pop();
-        if (tmp.dis > dis[tmp.v]) continue;
+        if (vis[tmp.v] || tmp.dis > dis[tmp.v]) continue;
+        vis[tmp.v] = 1;
+        ans += dis[tmp.v];
         iterate(tmp.v, i) {
-            if (dis[E[i].v] > dis[tmp.v] + E[i].w) {
-                dis[E[i].v] = dis[tmp.v] + E[i].w;
+            if (dis[E[i].v] > E[i].w) {
+                dis[E[i].v] =  E[i].w;
                 npq.push(PII(E[i].v, dis[E[i].v]));
             }
         }
     }
+    return ans;
 }

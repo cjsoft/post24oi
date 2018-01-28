@@ -1,5 +1,5 @@
 /**--------------------
- * Dijkstra Single-Source Shortest Path Algorithm
+ * Prim Spanning Tree Algorithm
  *
  * Time Consumption: E \times \log{V}
  * Mem Consumption: linear
@@ -51,23 +51,39 @@ struct PII {
         return dis > b.dis;
     }
 };
-
+int G[107][107], n;
 priority_queue<PII> npq;
+char vis[VMXN];
 int dis[VMXN];
-void dijkstra(int s) {
+int prim(int s) {
+    int ans = 0;
     while (!npq.empty()) npq.pop();
     memset(dis, 0x3f, sizeof(dis));
+    memset(vis, 0, sizeof(vis));
     dis[s] = 0;
     npq.push(PII(s, 0));
     PII tmp;
     while (!npq.empty()) {
         tmp = npq.top(), npq.pop();
-        if (tmp.dis > dis[tmp.v]) continue;
-        iterate(tmp.v, i) {
-            if (dis[E[i].v] > dis[tmp.v] + E[i].w) {
-                dis[E[i].v] = dis[tmp.v] + E[i].w;
-                npq.push(PII(E[i].v, dis[E[i].v]));
+        if (vis[tmp.v] || tmp.dis > dis[tmp.v]) continue;
+        vis[tmp.v] = 1;
+        ans += dis[tmp.v];
+        for (int i = 1; i <= n; ++i) {
+            if (dis[i] > G[tmp.v][i]) {
+                dis[i] =  G[tmp.v][i];
+                npq.push(PII(i, dis[i]));
             }
         }
     }
+    return ans;
+}
+
+int main() {
+    scanf("%d", &n);
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            scanf("%d", &G[i][j]);
+        }
+    }
+    printf("%d\n", prim(1));
 }
