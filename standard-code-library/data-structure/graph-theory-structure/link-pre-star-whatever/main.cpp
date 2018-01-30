@@ -39,7 +39,6 @@ inline void addedge(int u, int v, int w) {
     ehead[u] = ecur++;
 }
 #else
- #define PLENTYMEMORY
  #define E eglist
  #define iterate(NODEN, _I) for (int _I = ehead[NODEN]; _I != -1; _I = eglist[_I].prev)
 struct edge {
