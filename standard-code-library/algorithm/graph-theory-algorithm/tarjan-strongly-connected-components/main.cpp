@@ -58,12 +58,12 @@ void TARJANDFS(int root) {
             LOW[root] = std::min(LOW[root], DFN[V(i)]);
     }
     if (LOW[root] == DFN[root]) {
-        int VERTICEINSCC;
+        int VERTEXINSCC;
         while (SCCSTKBACK() != root) {
-            VERTICEINSCC = SCCSTKPOP();
+            VERTEXINSCC = SCCSTKPOP();
             // DO SOMETHING HERE
         }
-        VERTICEINSCC = SCCSTKPOP();
+        VERTEXINSCC = SCCSTKPOP();
         // DO SOMETHING HERE
     }
 }
