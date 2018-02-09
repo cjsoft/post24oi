@@ -54,7 +54,7 @@ struct SplayTree {
     inline void rev(node *x) {
         if (x != NIL) {
             std::swap(x->s[0], x->s[1]);
-            x->isrev = 1;
+            x->isrev ^= 1;
         }
     }
     inline void pushdown(node *x) {
@@ -63,8 +63,6 @@ struct SplayTree {
         if (x->tag) add(x->s[0], x->tag), add(x->s[1], x->tag), x->tag = 0;
     }
     inline void update(node *x) {
-        if (x->tag)
-            puts("WARNING");
         pushdown(x->s[0]);
         pushdown(x->s[1]);
         x->sz = x->s[0]->sz + 1 + x->s[1]->sz;
