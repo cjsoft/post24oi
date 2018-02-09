@@ -1,5 +1,5 @@
 /**--------------------
- * Splay Tree (no array editipon)
+ * Splay Tree (no array edition)
  *
  * Time Consumption: \log{n} (average, per operatoion)
  * Mem Consumption: linear
@@ -9,158 +9,124 @@
  */
 #include <cstring>
 #include <iostream>
+#include <cstdio>
 
 
 #define SPTMXN 200007
 
 #define mid(l, r) (((l) + (r)) >> 1)
 
-#define NIL 0
-#define N nodelist
 typedef long long SPTTP;
 struct SplayTree {
     struct node {
-        int s[2];
-        int par;
+        node *s[2];
+        node *parent;
         int sz;
         char isrev;
         SPTTP tag;
         SPTTP data;
         SPTTP sum;
-    } nodelist[SPTMXN];
-    int root, cur;
-    int stk[SPTMXN], pcur, tot; // for splay()
-    SplayTree(): root(0), cur(1) {
-        memset(nodelist, 0, sizeof(nodelist));
+    } NIL[SPTMXN];
+    node *root, *cur;
+    SplayTree(): root(NULL), cur(NIL + 1) {
+        memset(NIL, 0, sizeof(NIL));
+        NIL->parent = NIL->s[0] = NIL->s[1] = NIL;
+        NIL->data = NIL->sum = NIL->tag = 0;
+        NIL->sz = 0;
     }
-    inline void rev(int x) {
-        if (!x) return;
-        std::swap(N[x].s[0], N[x].s[1]);
-        N[x].isrev ^= 1;
-    }
-    inline void add(int x, SPTTP adata) {
-        N[x].data += adata;
-        N[x].sum += adata * N[x].sz;
-        N[x].tag += adata;
-    }
-    inline void pushdown(int x) {
-        if (!x) return;
-        if (N[x].tag) {
-            add(N[x].s[0], N[x].tag);
-            add(N[x].s[1], N[x].tag);
-            N[x].tag = 0;
-        }
-        if (N[x].isrev) {
-            rev(N[x].s[0]);
-            rev(N[x].s[1]);
-            N[x].isrev = 0;
-        }
-    }
-    inline int newnode(SPTTP value, int parent) {
-        N[cur].data = value;
-        N[cur].sz = 1;
-        N[cur].s[0] = N[cur].s[1] = 0;
-        N[cur].par = parent;
-        N[cur].tag = 0;
-        N[cur].sum = value;
+    inline node *newnode(SPTTP value, node *p) {
+        cur->data = value;
+        cur->tag = 0;
+        cur->sum = value;
+        cur->sz = 1;
+        cur->isrev = 0;
+        cur->parent = p;
+        cur->s[0] = cur->s[1] = NIL;
         return cur++;
     }
-    int build_from_sequence(SPTTP seq[], int l, int r, int parent) {
-        if (l == r) {
-            return newnode(seq[l], parent);
+    inline void add(node *x, SPTTP value) {
+        if (x != NIL) {
+            x->tag += value;
+            x->data += value;
+            x->sum += value * x->sz;
         }
-        if (l > r) return 0;
-        int m = mid(l, r), t = newnode(seq[m], parent);
-        N[t].s[0] = build_from_sequence(seq, l, m - 1, t);
-        N[t].s[1] = build_from_sequence(seq, m + 1, r, t);
-        update(t);
-        return t;
     }
-    inline void update(int x) {
-        if (!x) return;
-        pushdown(N[x].s[0]);
-        pushdown(N[x].s[1]);
-        N[x].sz = N[N[x].s[0]].sz + N[N[x].s[1]].sz + 1;
-        N[x].data = N[N[x].s[0]].data + N[N[x].s[1]].data;
+    inline void rev(node *x) {
+        if (x != NIL) {
+            std::swap(x->s[0], x->s[1]);
+            x->isrev = 1;
+        }
     }
-    inline int isson(int x) {
-        if (N[N[x].par].s[0] == x) return 0;
-        else if (N[N[x].par].s[1] == x) return 1;
+    inline void pushdown(node *x) {
+        if (x == NIL) return;
+        if (x->isrev) rev(x->s[0]), rev(x->s[1]), x->isrev = 0;
+        if (x->tag) add(x->s[0], x->tag), add(x->s[1], x->tag), x->tag = 0;
+    }
+    inline void update(node *x) {
+        if (x->tag)
+            puts("WARNING");
+        pushdown(x->s[0]);
+        pushdown(x->s[1]);
+        x->sz = x->s[0]->sz + 1 + x->s[1]->sz;
+        x->sum = x->s[0]->sum + x->data + x->s[1]->sum;
+    }
+    inline int sonid(node *x) {
+        if (x->parent->s[1] == x) return 1;
+        if (x->parent->s[0] == x) return 0;
         else return -1;
     }
-    inline void rotate(int x) {
-        int p = N[x].par, z = N[p].par;
-        int fx = isson(x), fp = isson(p);
-        if (!p) return;
-        if (!z) N[z].s[fp] = x;
-        else root = x;
-        N[p].s[fx] = N[x].s[fx ^ 1];
-        N[x].s[fx ^ 1] = p;
-        N[N[p].s[fx]].par = p;
-        N[p].par = x;
-        N[x].par = z;
+    inline void rotate(node *x) {
+        node *p = x->parent, *z = p->parent;
+        int fx = sonid(x), fp = sonid(p);
+        if (fx == -1) return;
+        if (fp == -1) root = x;
+        else z->s[fp] = x;
+        p->parent = x;
+        p->s[fx] = x->s[fx ^ 1];
+        x->s[fx ^ 1] = p;
+        if (p->s[fx] != NIL) p->s[fx]->parent = p;
+        p->parent = x;
+        x->parent = z;
         update(p);
-        update(x);
     }
-    inline void splay(int x) {
+    node *stk[SPTMXN], *pcur; int tot;
+    void splay(node *x, node *y) {
         tot = 0;
-        for (pcur = x; isson(pcur) != -1; pcur = N[pcur].par) stk[tot++] = pcur;
+        for (pcur = x; sonid(pcur) != -1; pcur = pcur->parent) stk[tot++] = pcur;
         for (stk[tot] = pcur; tot >= 0; --tot) pushdown(stk[tot]);
-        for (; isson(x) != -1; rotate(x))
-            if (isson(N[x].par) != -1) {
-                if (isson(x) == isson(N[x].par)) rotate(N[x].par);
+        for (; sonid(x) != -1 && x->parent != y; rotate(x)) 
+            if (sonid(x->parent) != -1 && x->parent->parent != y) {
+                if (sonid(x) == sonid(x->parent)) rotate(x->parent);
                 else rotate(x);
             }
         update(x);
     }
-    inline void swim(int k) {
-        int x = root, dir = k > N[N[x].s[0]].sz;
-        while (k != N[N[x].s[0]].sz + 1) {
-            k -= dir ? (N[N[x].s[0]].sz + 1) : 0;
-            x = N[x].s[dir];
+    void swim(int k, node *y) {
+        node *x = root; int dir = k > (x->s[0]->sz + 1);
+        for (; k != x->s[0]->sz + 1; dir = k > (x->s[0]->sz + 1)) {
+            if (dir) k-= x->s[0]->sz + 1;
+            x = x->s[dir];
         }
-        splay(x);
+        splay(x, y);
+    }
+    node *build_from_sequence(SPTTP seq[], int l, int r, node *p) {
+        if (l > r) return NIL;
+        if (l == r) return newnode(seq[l], p);
+        node *x = newnode(seq[mid(l, r)], p);
+        x->s[0] = build_from_sequence(seq, l, mid(l, r) - 1, x);
+        x->s[1] = build_from_sequence(seq, mid(l, r) + 1, r, x);
+        update(x);
+        return x;
     }
     inline void init() {
-        root = 0;
-        cur = 1;
-        memset(nodelist, 0, sizeof(nodelist));
+        cur = NIL + 1;
+        memset(NIL, 0, sizeof(NIL));
+        NIL->parent = NIL->s[0] = NIL->s[1] = NIL;
+        NIL->data = NIL->sum = NIL->tag = 0;
+        NIL->isrev = 0;
+        NIL->sz = 0;
         root = newnode(0, NIL);
-        N[root].s[1] = newnode(0, root);
+        root->s[1] = newnode(0, root);
         update(root);
     }
 };
-
-SplayTree spt;
-#include <cstdio>
-int n, q;
-SPTTP arr[200007];
-#define NN spt.nodelist
-int main() {
-    scanf("%d", &n);
-    for (int i = 1; i <= n; ++i)
-        scanf("%lld", arr + i);
-    spt.init();
-    NN[NN[spt.root].s[1]].s[0] = spt.build_from_sequence(arr, 1, n, NN[spt.root].s[1]);
-    spt.update(NN[spt.root].s[1]);
-    spt.update(spt.root);
-    scanf("%d", &q);
-    for (int i = 0; i < q; ++i) {
-        int a, b, c, d;
-        scanf("%d", &a);
-        if (a == 1) {
-            scanf("%d %d %d", &b, &c, &d);
-            spt.swim(c + 2);
-            spt.swim(b);
-            spt.add(NN[NN[spt.root].s[1]].s[0], d);
-            spt.update(NN[spt.root].s[1]);
-            spt.update(spt.root);
-        } else {
-            scanf("%d %d", &b, &c);
-            spt.swim(c + 2);
-            spt.swim(b);
-            printf("%lld\n", NN[NN[NN[spt.root].s[1]].s[0]].sum);
-        }
-    }
-    return 0;
-}
