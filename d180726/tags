@@ -1,0 +1,24 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+N	a.cpp	7;"	d	file:
+a	a.cpp	/^ll a[N], p[N];$/;"	v
+add	a.cpp	/^void add(int root, int l, int r, int al, int ar, ll dta) {$/;"	f
+change	a.cpp	/^void change(int root, int l, int r, int pos, ll dta) {$/;"	f
+lbest	a.cpp	/^ll lbest[N], rbest[N];$/;"	v
+ll	a.cpp	/^typedef long long ll;$/;"	t	file:
+lson	a.cpp	5;"	d	file:
+main	a.cpp	/^int main() {$/;"	f
+mid	a.cpp	4;"	d	file:
+n	a.cpp	/^int n;$/;"	v
+p	a.cpp	/^ll a[N], p[N];$/;"	v
+pushdown	a.cpp	/^void pushdown(int root, int l, int r) {$/;"	f
+query	a.cpp	/^ll query(int root, int l, int r, int ql, int qr) {$/;"	f
+rbest	a.cpp	/^ll lbest[N], rbest[N];$/;"	v
+rson	a.cpp	6;"	d	file:
+stree	a.cpp	/^ll stree[N << 2 | 1], tag[N << 2 | 1];$/;"	v
+tag	a.cpp	/^ll stree[N << 2 | 1], tag[N << 2 | 1];$/;"	v
+update	a.cpp	/^inline void update(int root) {$/;"	f

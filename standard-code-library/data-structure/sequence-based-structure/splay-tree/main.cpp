@@ -90,7 +90,7 @@ struct SplayTree {
     node *stk[SPTMXN], *pcur; int tot;
     void splay(node *x, node *y) {
         tot = 0;
-        for (pcur = x; sonid(pcur) != -1; pcur = pcur->parent) stk[tot++] = pcur;
+        for (pcur = x; sonid(pcur) != -1 && pcur != NIL; pcur = pcur->parent) stk[tot++] = pcur;
         for (stk[tot] = pcur; tot >= 0; --tot) pushdown(stk[tot]);
         for (; sonid(x) != -1 && x->parent != y; rotate(x)) 
             if (sonid(x->parent) != -1 && x->parent->parent != y) {
@@ -100,10 +100,12 @@ struct SplayTree {
         update(x);
     }
     void swim(int k, node *y) {
+        pushdown(root);
         node *x = root; int dir = k > (x->s[0]->sz + 1);
         for (; k != x->s[0]->sz + 1; dir = k > (x->s[0]->sz + 1)) {
             if (dir) k-= x->s[0]->sz + 1;
             x = x->s[dir];
+            pushdown(root);
         }
         splay(x, y);
     }

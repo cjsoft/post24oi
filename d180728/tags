@@ -1,0 +1,24 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+L	sts.cpp	/^uint rt[N << 2 | 7], L[N << 8 | 7], R[N << 8 | 7], tag[N << 8 | 7], stree[N << 8 | 7];$/;"	v
+N	sts.cpp	7;"	d	file:
+R	sts.cpp	/^uint rt[N << 2 | 7], L[N << 8 | 7], R[N << 8 | 7], tag[N << 8 | 7], stree[N << 8 | 7];$/;"	v
+cnt	sts.cpp	/^int cnt = 0;$/;"	v
+inneradd	sts.cpp	/^void inneradd(uint &root, uint l, uint r, uint al, uint ar) {$/;"	f
+innerans	sts.cpp	/^uint innerans(uint root, uint l, uint r, uint ql, uint qr) {$/;"	f
+lson	sts.cpp	4;"	d	file:
+m	sts.cpp	/^uint n, m;$/;"	v
+main	sts.cpp	/^int main() {$/;"	f
+mid	sts.cpp	6;"	d	file:
+n	sts.cpp	/^uint n, m;$/;"	v
+outeradd	sts.cpp	/^void outeradd(uint root, uint l, uint r, uint al, uint ar, uint dta) {$/;"	f
+outerans	sts.cpp	/^uint outerans(uint root, uint l, uint r, int ql, int qr, uint k) {$/;"	f
+rson	sts.cpp	5;"	d	file:
+rt	sts.cpp	/^uint rt[N << 2 | 7], L[N << 8 | 7], R[N << 8 | 7], tag[N << 8 | 7], stree[N << 8 | 7];$/;"	v
+stree	sts.cpp	/^uint rt[N << 2 | 7], L[N << 8 | 7], R[N << 8 | 7], tag[N << 8 | 7], stree[N << 8 | 7];$/;"	v
+tag	sts.cpp	/^uint rt[N << 2 | 7], L[N << 8 | 7], R[N << 8 | 7], tag[N << 8 | 7], stree[N << 8 | 7];$/;"	v
+uint	sts.cpp	/^typedef unsigned int uint; $/;"	t	file:

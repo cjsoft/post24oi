@@ -1,0 +1,16 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+N	a.cpp	4;"	d	file:
+dfs	a.cpp	/^void dfs(int y, int x) {$/;"	f
+dx	a.cpp	/^int dy[] = {1, -1, 0, 0}, dx[] = {0, 0, 1, -1};$/;"	v
+dy	a.cpp	/^int dy[] = {1, -1, 0, 0}, dx[] = {0, 0, 1, -1};$/;"	v
+m	a.cpp	/^int s, n, m;$/;"	v
+main	a.cpp	/^int main() {$/;"	f
+mp	a.cpp	/^char mp[N][N], vis[N][N];$/;"	v
+n	a.cpp	/^int s, n, m;$/;"	v
+s	a.cpp	/^int s, n, m;$/;"	v
+vis	a.cpp	/^char mp[N][N], vis[N][N];$/;"	v
